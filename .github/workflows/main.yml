@@ -21,18 +21,20 @@ jobs:
           distribution: temurin
           java-version: 21
           cache: maven
+          cache-dependency-path: NoLimits/pom.xml
 
       - name: Build
+        working-directory: NoLimits
         run: mvn -B package
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
           name: NoLimits
-          path: target/NoLimits-*.jar
+          path: NoLimits/target/NoLimits-*.jar
 
       - name: Publish release (tags v*)
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          files: target/NoLimits-*.jar
+          files: NoLimits/target/NoLimits-*.jar
